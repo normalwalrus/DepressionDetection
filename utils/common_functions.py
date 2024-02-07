@@ -5,6 +5,8 @@ import re
 from nltk.corpus import stopwords 
 from collections import Counter
 import numpy as np
+from nltk.stem import WordNetLemmatizer
+import nltk
 
 
 def train_loop(train_loader, model, loss_fn, optimizer, device):
@@ -83,6 +85,7 @@ def tockenize(x_train,x_val, length = 2000, stop_word_active = True):
 
     stop_words = set(stopwords.words('english')) 
     for sent in x_train:
+
         for word in sent.lower().split():
             word = preprocess_string(word)
 
@@ -109,7 +112,7 @@ def tockenize(x_train,x_val, length = 2000, stop_word_active = True):
                                     if preprocess_string(word) in onehot_dict.keys()])
         
     print(len(final_list_train))
-    return final_list_train, final_list_test,onehot_dict
+    return final_list_train, final_list_test, onehot_dict
 
 def padding_(sentences, seq_len):
     features = np.zeros((len(sentences), seq_len),dtype=int)
